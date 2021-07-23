@@ -1,0 +1,73 @@
+@startuml
+
+
+class InventoryTracker{
+    start()
+    main()
+}
+
+class WindowManager{
+    scenes: Map<String, Scene> Scenes
+
+    load()
+    getScene(String) Scene
+
+}
+
+class MainWindowController{
+
+    items: InventoryTrackerModel
+    scenes: WindowManager
+    fileManager: FileManager
+
+    +MainWindowController(InventoryTrackerModel, WindowManager)
+
+
+}
+
+class FileManager{
+
+    saveAsCSV(fileName: String, data: ObservableList)
+    saveAsHTML(fileName: String, data: ObservableList)
+    saveAsJSON(fileName: String, data: ObservableList)
+
+}
+
+class InventoryTrackerModel{
+
+    items: ObservableSet<Item>
+
+    
+
+}
+
+class Item{
+
+    name: SimpleStringProperty
+    serialNumber: SimpleStringProperty
+    value: SimpleBigDecimalProperty
+
+    + getName()
+    + getSerialNumber()
+    + getValue()
+
+    + setName()
+    + setSerialNumber()
+    + setValue()
+
+}
+
+
+
+javafx.application <-- InventoryTracker
+InventoryTracker *-- WindowManager
+WindowManager o-- MainWindowController
+WindowManager o-- AddItemController
+
+AddItemController o-- InventoryTrackerModel
+MainWindowController o-- InventoryTrackerModel
+MainWindowController o-- FileManager
+InventoryTrackerModel *-- Item
+
+
+@enduml
