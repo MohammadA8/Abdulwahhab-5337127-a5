@@ -20,16 +20,31 @@ class MainWindowController{
     scenes: WindowManager
     fileManager: FileManager
 
-    +MainWindowController(InventoryTrackerModel, WindowManager)
-
+    initialize()
+    + MainWindowController(InventoryTrackerModel, WindowManager)
+    + addItemButtonClicked(ActionEvent event)
+    + loadButtonClicked(ActionEvent event)
+    + quitButtonClicked(ActionEvent event)
+    + removeItemButtonClicked(ActionEvent event)
+    + saveFileButtonClicked(ActionEvent event)
 
 }
 
 class FileManager{
 
-    saveAsCSV(fileName: String, data: ObservableList)
-    saveAsHTML(fileName: String, data: ObservableList)
-    saveAsJSON(fileName: String, data: ObservableList)
+    + saveAsCSV(fileName: String, data: ObservableSet)
+    + saveAsHTML(fileName: String, data: ObservableSet)
+    + saveAsJSON(fileName: String, data: ObservableSet)
+
+    + loadFromCSV(fileName: String) ObservableSet
+    + loadFromHTML(fileName: String) ObservableSet
+    + loadFromJSON(fileName: String) ObservableSet
+
+}
+
+class AddItemController{
+
+    addButtonClicked(EventHandler)
 
 }
 
@@ -37,7 +52,17 @@ class InventoryTrackerModel{
 
     items: ObservableSet<Item>
 
-    
+    + findName(name: String) Item
+    + findSerialNumber(serialNumber: String) Item
+    + addItem(name: String, serialNumber: String, value: Double)
+    + removeItem(Item)
+    + editValue(item: Item, value: Double)
+    + editSerialNumber(item: Item, serialNumber: String)
+    + editName(item: Item, name: String)
+    + sortName()
+    + sortSerialNumber()
+    + sortValue()
+
 
 }
 
@@ -45,7 +70,9 @@ class Item{
 
     name: SimpleStringProperty
     serialNumber: SimpleStringProperty
-    value: SimpleBigDecimalProperty
+    value: SimpleDoubleProperty
+
+    Item(String name, String serialNumber, Double value)
 
     + getName()
     + getSerialNumber()
