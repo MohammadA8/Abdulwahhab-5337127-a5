@@ -1,5 +1,6 @@
 package ucf.assignments;
 
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.*;
 
 import java.util.*;
@@ -8,10 +9,12 @@ public class InventoryTrackerModel {
 
     Set<Item> items;
     ObservableList<Item> displayedItems;
-
+    SimpleBooleanProperty itemDuplicate;
     public InventoryTrackerModel(){
-        items = new HashSet<>();
+        items = new HashSet<Item>();
         displayedItems = FXCollections.observableArrayList();
+        itemDuplicate = new SimpleBooleanProperty();
+        itemDuplicate.set(false);
     }
 
     public Item findName(String name){
@@ -24,7 +27,7 @@ public class InventoryTrackerModel {
         while(iterator.hasNext()){
 
             Item item = iterator.next();
-            if(item.getNameProperty().get().equals(name)){
+            if(item.getName().equals(name)){
                 return item;
             }
 
@@ -42,7 +45,7 @@ public class InventoryTrackerModel {
         while(iterator.hasNext()){
 
             Item item = iterator.next();
-            if(item.getSerialNumberProperty().get().equals(serialNumber)){
+            if(item.getSerialNumber().equals(serialNumber)){
                 return item;
             }
 
@@ -51,7 +54,7 @@ public class InventoryTrackerModel {
 
 
     }
-    public void addItem(String name, String serialNumber, double value){
+    public boolean addItem(String name, String serialNumber, String value){
 
         // make a new item with the given parameters
         // add it to the list
@@ -60,6 +63,10 @@ public class InventoryTrackerModel {
 
         if(this.items.add(item)){
             this.displayedItems.add(item);
+            return true;
+        }else{
+            itemDuplicate.set(true);
+            return false;
         }
 
     }
@@ -71,7 +78,7 @@ public class InventoryTrackerModel {
         this.items.remove(item);
 
     }
-    public void editValue(Item item, double value){
+    public void editValue(Item item, String value){
 
         // set the value of the item to be the value given
         item.setValue(value);
@@ -97,7 +104,7 @@ public class InventoryTrackerModel {
         Comparator<Item> comparator = new Comparator<Item>() {
             @Override
             public int compare(Item o1, Item o2) {
-                return o1.getNameProperty().get().compareToIgnoreCase(o2.getNameProperty().get());
+                return o1.getName().compareToIgnoreCase(o2.getName());
             }
         };
         Collections.sort(this.displayedItems, comparator);
@@ -110,7 +117,13 @@ public class InventoryTrackerModel {
         Comparator<Item> comparator = new Comparator<Item>() {
             @Override
             public int compare(Item o1, Item o2) {
-                return o1.getSerialNumberProperty().get().compareTo(o2.getSerialNumberProperty().get());
+                double doubleOne = Double.parseDouble(o1.getValue());
+                double doubleTwo = Double.parseDouble(o2.getValue());
+                if(doubleOne> doubleTwo){
+                    return 1;
+                }else{
+                    return -1;
+                }
             }
         };
         Collections.sort(this.displayedItems, comparator);
@@ -124,15 +137,17 @@ public class InventoryTrackerModel {
         Comparator<Item> comparator = new Comparator<Item>() {
             @Override
             public int compare(Item o1, Item o2) {
-                if(o1.getValueProperty().get()>o2.getValueProperty().get()){
-                    return 1;
-                }
-                else{
-                    return -1;
-                }
+                return o1.getValue().compareTo(o2.getValue());
             }
         };
         Collections.sort(this.displayedItems, comparator);
 
+    }
+    public boolean isItemDuplicate() {
+        return itemDuplicate.get();
+    }
+
+    public void setItemDuplicate(boolean itemDuplicate) {
+        this.itemDuplicate.set(itemDuplicate);;
     }
 }

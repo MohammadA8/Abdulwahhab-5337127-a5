@@ -4,48 +4,47 @@ import javafx.beans.property.*;
 
 public class Item {
 
-    private SimpleStringProperty name;
-    private SimpleStringProperty serialNumber;
-    private SimpleDoubleProperty value;
+    private final SimpleStringProperty name ;
+    private final SimpleStringProperty serialNumber;
+    private final SimpleStringProperty value;
 
-    Item(String name, String serialNumber, double value){
+    Item(String name, String serialNumber, String value){
 
-        this.name.set(name);
-        this.serialNumber.set(serialNumber);
-        this.value.set(value);
+        this.name = new SimpleStringProperty(name);
+        this.serialNumber = new SimpleStringProperty(serialNumber);
+        this.value = new SimpleStringProperty(value);
 
     }
 
-    public boolean equals(Item item){
-
-        if(this == item){
-            return true;
-        }
-
-        if(this.serialNumber.get().equals(item.serialNumber.get())){
-            return true;
-        }
-
-        return false;
+    public boolean equals(Object o) {
+        return (o instanceof Item) && (((Item) o).getSerialNumber()).equals(this.getSerialNumber());
+    }
+    public int hashCode() {
+        return serialNumber.get().hashCode();
     }
 
-    public SimpleStringProperty getNameProperty() {
-        return name;
+    public String getName() {
+        return name.get();
     }
     public void setName(String name) {
         this.name.set(name);
     }
-    public SimpleStringProperty getSerialNumberProperty() {
-        return serialNumber;
+    public String getSerialNumber() {
+        return serialNumber.get();
     }
     public void setSerialNumber(String serialNumber) {
         this.serialNumber.set(serialNumber);
     }
-    public SimpleDoubleProperty getValueProperty() {
-        return value;
+    public String getValue() {
+        return value.get();
     }
-    public void setValue(double value) {
+    public void setValue(String value) {
         this.value.set(value);
+    }
+    public String toString(){
+
+        return (String) this.serialNumber.get() + this.name.get() + this.value.get();
+
     }
 
 

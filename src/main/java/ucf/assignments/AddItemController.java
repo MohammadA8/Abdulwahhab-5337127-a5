@@ -9,10 +9,12 @@ import javafx.stage.Stage;
 public class AddItemController {
 
     InventoryTrackerModel model;
+    WindowManager windowManager;
 
-    AddItemController(InventoryTrackerModel model){
+    AddItemController(WindowManager windowManager, InventoryTrackerModel model){
 
         this.model = model;
+        this.windowManager = windowManager;
     }
 
     @FXML
@@ -31,16 +33,48 @@ public class AddItemController {
     void addButtonClicked(ActionEvent event) {
 
         // add the new item with the given parameters
-        // clear the text boxes 
+        // Make sure that the formatting of each String is right
+        // clear the text boxes
         // get the current stage and close it
 
-        this.model.addItem(itemNameText.getText(), serialNumberText.getText(), Double.parseDouble(itemValueText.getText()));
-        Stage currentStage = (Stage)addButton.getScene().getWindow();
-        serialNumberText.clear();
-        itemValueText.clear();
-        itemNameText.clear();
-        currentStage.close();
+        if(serialNumberText.getText().matches("^[a-zA-Z_0-9]{10}$")){
+            if(itemValueText.getText().matches("^(\\d{1,3}(\\,\\d{3})*|(\\d+))(\\.\\d{2})?$")){
+                if(itemNameText.getText().matches("[a-zA-Z_0-9]{2,256}+")){
+                    if(this.model.addItem(itemNameText.getText(), serialNumberText.getText(), itemValueText.getText())){
+                        model.setItemDuplicate(false);
+                        Stage currentStage = (Stage)addButton.getScene().getWindow();
+                        serialNumberText.clear();
+                        itemValueText.clear();
+                        itemNameText.clear();
+                        currentStage.close();
+                    }else{
+                        showErrorWindow();
+                    }
 
+                }
+                else {
+                    showErrorWindow();
+                }
+
+            }else{
+                showErrorWindow();
+            }
+
+        }else{
+
+            showErrorWindow();
+
+        }
+
+
+
+    }
+
+    public void showErrorWindow(){
+        Stage stage = new Stage();
+        stage.setTitle("Error");
+        stage.setScene(windowManager.getScene("ErrorWindow"));
+        stage.show();
     }
 
 }

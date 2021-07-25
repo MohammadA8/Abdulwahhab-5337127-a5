@@ -15,7 +15,8 @@ public class WindowManager {
         InventoryTrackerModel model = new InventoryTrackerModel();
 
         MainWindowController listViewerController = new MainWindowController(this, model);
-        AddItemController addItemController = new AddItemController(model);
+        AddItemController addItemController = new AddItemController(this, model);
+        ErrorWindowController ErrorWindowController = new ErrorWindowController(model);
 
 
         Parent root;
@@ -41,6 +42,17 @@ public class WindowManager {
         }catch (IOException e){
             e.printStackTrace();
         }
+
+        loader = new FXMLLoader((getClass().getResource("ErrorWindow.fxml")));
+        loader.setController((ErrorWindowController));
+
+        try{
+            root = loader.load();
+            scenes.put("ErrorWindow", new Scene(root));
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+
 
     }
 
