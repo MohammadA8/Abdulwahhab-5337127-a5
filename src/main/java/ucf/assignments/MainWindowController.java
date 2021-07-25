@@ -105,6 +105,8 @@ public class MainWindowController {
     void removeItemButtonClicked(ActionEvent event) {
 
         // Delete the item that's highlighted in the tableView
+        Item item = tableView.getSelectionModel().getSelectedItem();
+        model.removeItem(item);
 
     }
 
