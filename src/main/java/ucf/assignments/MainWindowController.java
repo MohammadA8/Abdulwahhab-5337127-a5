@@ -103,6 +103,9 @@ public class MainWindowController {
     void quitButtonClicked(ActionEvent event) {
 
         // Quite the program
+        Stage stage = (Stage) addItemButton.getScene().getWindow();
+        stage.close();
+
 
     }
 
