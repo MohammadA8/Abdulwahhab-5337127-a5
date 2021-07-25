@@ -9,8 +9,13 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import org.apache.commons.io.FilenameUtils;
 
+import javax.imageio.ImageIO;
+import java.io.File;
+import java.io.IOException;
 import java.time.LocalDate;
 
 public class MainWindowController {
@@ -116,6 +121,27 @@ public class MainWindowController {
         // Open up a file chooser that gives you the options
         // to save the file as HTML, TSV, and JSON
         // delegate the tasks to the FileManager
+        Stage currentStage = (Stage)addItemButton.getScene().getWindow();
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Open Resource File");
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("TSV", "*.txt"),
+                new FileChooser.ExtensionFilter("HTML", "*.html"),
+                new FileChooser.ExtensionFilter("JSON", "*.json")
+        );
+
+        try {
+
+            File file = fileChooser.showSaveDialog(currentStage);
+            FileManager fileManager = new FileManager(file);
+            fileManager.writeFile(model);
+            fileChooser.setInitialDirectory(file.getParentFile());
+
+
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+
 
     }
 
