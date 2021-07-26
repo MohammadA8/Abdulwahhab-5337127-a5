@@ -1,27 +1,27 @@
 CONFIGURATION
 -------------
  
- * Configure the user permissions in Administration » People » Permissions:
+ * Adding an Item
 
-   - Use the administration pages and help (System module)
+   - Click on the add item button
 
-     The top-level administration categories require this permission to be
-     accessible. The administration menu will be empty unless this permission
-     is granted.
+     Type in the serial number, name, and value with the right formatting then click add
 
-   - Access administration menu
+ * Removing an item
+ 
+   - Highlight row and then click remove
 
-     Users with this permission will see the administration menu at the top of
-     each page.
+ * Sorting
+ 
+   - Sort by clicking on the column headers
+   
+ * Saving
 
-   - Display Drupal links
+   - Click on the file tap on the top left
+     
+     You can save as HTML or TSV
+ * Loading
 
-     Users with this permission will receive links to drupal.org issue queues
-     for all enabled contributed modules. The issue queue links appear under
-     the administration menu icon.
-
- * Customize the menu settings in Administration » Configuration and modules »
-   Administration » Administration menu.
-
- * To prevent administrative menu items from appearing twice, you may hide the
-   "Management" menu block.
+   - Click on the file tap on the top left
+     
+     You can load any file that has previously saved by the program
