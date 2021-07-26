@@ -96,6 +96,14 @@ public class MainWindowController {
         // Open up a file chooser that gives you the option
         // to choose the file to load
         // delegate the tasks to the FileManager
+        Stage currentStage = (Stage) addItemButton.getScene().getWindow();
+
+
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Open Resource File");
+        File file = fileChooser.showOpenDialog(currentStage);
+        FileManager fileManager = new FileManager(file);
+        fileManager.loadFile(model);
 
     }
 
